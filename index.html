@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" src="css/style.css">
+    <title>Number Guesser</title>
+</head>
+
+<body>
+    <div class="main">
+      <img src="img/gem-stone.gif">
+      <h1>Adivina el número secreto</h1>
+        <form onsubmit="return false">
+            <input placeholder="Escribe un número" inputmode="decimal" id="insertarNumero" type="number">
+            <input type="submit" value="Adivina" id="adivinaBoton">
+        </form>
+        <p id="resultados"></p>
+    </div>
+
+<div class="footer">
+  <p>02/03/2023</p>
+</div>
+
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap');
+
+
+  body {
+    font-family: 'Tilt Warp', cursive;
+    background-image: url(img/nubes.png);
+}
+
+.main {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+}
+
+.main img {
+  width: 100px;
+}
+
+.main h1 {
+  font-size: 48px;
+  margin: 20px;
+  text-align: center;
+}
+
+.main p {
+  font-size: 20px;
+  line-height: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+#resultados {
+    max-height: 350px;
+    overflow: auto;
+    background-color: hsl(0deg 0% 100% / 44%);
+    border-radius: 10px;
+  }
+
+  .main form {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    width: 100%;
+  }
+
+  .main form * {
+    padding: 10px;
+    margin: 10px;
+    font-family: 'Tilt Warp', cursive;
+    font-weight: bold;
+    font-size: 18px;
+    border: 3px solid black;
+    border-radius: 10px;
+    }
+  #adivinaBoton {
+    background-color: lightblue;
+    cursor: pointer;
+  }
+  #adivinaBoton:hover {
+    background-color: cyan;
+  }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-image: url(img/SMBlock.png);
+  text-align: center;
+  color: white;
+}
+</style>
+<script>
+    var numeroAAdivinar;
+
+    var insertarNumero = document.querySelector("#insertarNumero");
+    var adivinaBoton = document.querySelector("#adivinaBoton");
+    var resultados = document.querySelector("#resultados");
+
+    adivinaBoton.addEventListener("click", comprobarNumero, false);
+
+    function setnumeroAAdivinar() {
+        numeroAAdivinar = generaNumeroAleatorio(0, 100);
+    }
+    setnumeroAAdivinar();
+
+    function generaNumeroAleatorio(low, high) {
+        var r = Math.floor(Math.random() * (high - low + 1)) + low;
+        return r;
+    }
+
+function comprobarNumero(event) {
+  var numeroIntroducido = insertarNumero.value;
+  insertarNumero.value = "";
+
+  if (numeroIntroducido == "") {
+    var mensaje = `<p>⚠️ Introduce un número primero</p>`;
+    
+    resultados.insertAdjacentHTML("afterbegin", mensaje);
+
+    return;
+  }
+
+  if (numeroIntroducido == numeroAAdivinar) {
+    var mensaje = `<p>----- Bien hecho! -----<p>
+                    <p>💎 El número ${numeroIntroducido} es <b>correcto!</b>!</p>
+                    <p>-------------------------<p>`;
+
+    resultados.insertAdjacentHTML("afterbegin", mensaje);
+
+    setnumeroAAdivinar();
+    
+    return;
+  }
+
+  if (numeroIntroducido < numeroAAdivinar) {
+    var mensaje = `<p>👇 El número ${numeroIntroducido} es <b>bajo</b>!</p>`;
+
+    resultados.insertAdjacentHTML("afterbegin", mensaje);
+  }
+
+  if (numeroIntroducido > numeroAAdivinar) {
+    var mensaje = `<p>👆 El número ${numeroIntroducido} es <b>alto</b>!</p>`;
+
+    resultados.insertAdjacentHTML("afterbegin", mensaje);
+  }
+
+  
+}
+</script>    
+</body>
+</html>
